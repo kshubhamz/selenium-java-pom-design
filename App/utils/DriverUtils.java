@@ -20,10 +20,24 @@ public class DriverUtils {
 
 	}
 
+	/**
+	 * Get instanced WebDriver
+	 * 
+	 * @return WebDriver
+	 * @author shubhamkumar
+	 */
 	public static WebDriver getDriver() {
 		return driver;
 	}
 
+	/**
+	 * Create instance of WebDriver with window maximized, 30 sec of
+	 * implicit wait and 10 sec of script timeout
+	 * 
+	 * @param browserName browser to be used
+	 * @param privateMode
+	 * @author shubhamkumar
+	 */
 	public static void setDriver(String browserName, boolean privateMode) {
 		switch (browserName.toLowerCase()) {
 		case "chrome":
