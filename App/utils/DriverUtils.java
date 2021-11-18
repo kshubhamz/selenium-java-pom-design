@@ -79,7 +79,6 @@ public class DriverUtils {
 		default:
 			System.setProperty("webdriver.chrome.driver", "./Driver/chromedriver.exe");
 			ChromeOptions optionsC1 = new ChromeOptions();
-			optionsC1.addArguments("start-maximized");
 			if (privateMode) {
 				optionsC1.addArguments("--incognito");
 			}
