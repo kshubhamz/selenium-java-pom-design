@@ -13,9 +13,9 @@ public class PropertiesReader {
 	 * Read properties file
 	 * 
 	 * @param filePath Path of the file
-	 * @return java.util.Properties
+	 * @return {@code Properties}
 	 * @throws IOException
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static Properties readProperties(String filePath) throws IOException {
 		Properties prop = null;

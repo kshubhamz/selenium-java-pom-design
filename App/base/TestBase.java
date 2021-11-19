@@ -12,7 +12,7 @@ import utils.ExcelReader;
 /**
  * Class for interacting with TestData and run-properties
  * 
- * @author shubhamkumar
+ * @author Shubham Kumar
  * @version 2.0
  *
  */
@@ -20,6 +20,7 @@ public class TestBase {
 	public static String testCaseName;
 	public static String sheetName;
 	public static String testDataFile;
+	public static String folderPath;
 
 	private TestBase() {
 
@@ -29,7 +30,7 @@ public class TestBase {
 	 * Reads data from file and sets to TestObjects
 	 * 
 	 * @throws IOException
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void setTestData() throws IOException {
 		TestObjects.testData = ExcelReader.readExcel(testDataFile, sheetName);
@@ -39,8 +40,8 @@ public class TestBase {
 	 * Gets data for the specified column from TestObjects
 	 * 
 	 * @param colName
-	 * @return Data for particular column for current running test
-	 * @author shubhamkumar
+	 * @return {@code String} Data for particular column for current running test
+	 * @author Shubham Kumar
 	 */
 	public static String getData(String colName) {
 		return TestObjects.getColValue(colName);
@@ -51,7 +52,7 @@ public class TestBase {
 	 * 
 	 * @param filePath
 	 * @param sheet
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void setDataParameters(String filePath, String sheet) {
 		sheetName = sheet;
@@ -62,7 +63,7 @@ public class TestBase {
 	 * Sets which row's data to be used for current running Test
 	 * 
 	 * @param testId
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void setTestID(String testId) {
 		testCaseName = testId;
@@ -73,8 +74,8 @@ public class TestBase {
 	/**
 	 * Gets current running TestID
 	 * 
-	 * @return
-	 * @author shubhamkumar
+	 * @return {@code String}
+	 * @author Shubham Kumar
 	 */
 	public static String getTestID() {
 		return TestObjects.getTestID();
@@ -83,14 +84,14 @@ public class TestBase {
 	/**
 	 * Creates a new Results Directory in Root Folder for storing screen shots
 	 * 
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void mkdirRoot() {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
 		Date date = new Date();
 		String folderName = "./Results/" + TestObjects.getRunProperties().getProperty("APP_NAME").trim()
 				+ "_TC_ScreenShot/" + dateFormat.format(date) + "";
-		TestObjects.setFolderPath(folderName);
+		folderPath = folderName;
 		new File(folderName).mkdir();
 	}
 
@@ -98,8 +99,8 @@ public class TestBase {
 	 * Gets run time property from run.properties
 	 * 
 	 * @param property
-	 * @return Property for the specified key
-	 * @author shubhamkumar
+	 * @return {@code String} Configuration for the specified key
+	 * @author Shubham Kumar
 	 */
 	public static String getProperty(String property) {
 		return TestObjects.getRunProperties().getProperty(property).trim();

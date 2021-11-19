@@ -30,7 +30,7 @@ import utils.DriverUtils;
 /**
  * Class for setting various parameters for the Test Execution to start
  * 
- * @author shubhamkumar
+ * @author Shubham Kumar
  * @version 2.0
  *
  */
@@ -48,7 +48,7 @@ public class Logger {
 	 * 
 	 * @param browserType Which browser to ne used
 	 * @param url         url of the app
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	@Parameters({ "browserType", "url" })
 	public static void initialize(@Optional("NA") String browserType, @Optional("NA") String url) {
@@ -65,7 +65,7 @@ public class Logger {
 	 * @param testDataPath
 	 * @param sheetName
 	 * @param browserType
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	@Parameters({ "browserType" })
 	public static void startReport(String testDataPath, String sheetName, @Optional("NA") String browserType) {
@@ -84,7 +84,7 @@ public class Logger {
 	 * Starts a Test Method
 	 * 
 	 * @param method
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	@BeforeMethod
 	public void startTestMethod(Method method) {
@@ -98,7 +98,7 @@ public class Logger {
 	 * 
 	 * @param result
 	 * @throws IOException
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	@AfterMethod
 	public static void getResult(ITestResult result) throws IOException {
@@ -125,7 +125,7 @@ public class Logger {
 	/**
 	 * Ends a Test
 	 * 
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	@AfterTest
 	public void endReport() {
@@ -137,7 +137,7 @@ public class Logger {
 	/**
 	 * Ends a Test Class
 	 * 
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	@AfterClass
 	public void endDriver() {
@@ -148,7 +148,7 @@ public class Logger {
 	 * Logs info in html report as well as console
 	 * 
 	 * @param message
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void info(String message) {
 		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
@@ -161,7 +161,7 @@ public class Logger {
 	 * Logs bold info in html report as well as console
 	 * 
 	 * @param message
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void boldInfo(String message) {
 		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
@@ -174,7 +174,7 @@ public class Logger {
 	 * Logs itallic info in html report as well as console
 	 * 
 	 * @param message
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void itallicInfo(String message) {
 		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
@@ -187,7 +187,7 @@ public class Logger {
 	 * Attach ScreenShot in html report for a fail scenario
 	 * 
 	 * @throws IOException
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void fail() throws IOException {
 		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
@@ -198,8 +198,8 @@ public class Logger {
 	/**
 	 * Get current date
 	 * 
-	 * @return Current Date of format dd-MM-yyyy_HH-mm-ss
-	 * @author shubhamkumar
+	 * @return {@code String} Current Date of format dd-MM-yyyy_HH-mm-ss
+	 * @author Shubham Kumar
 	 */
 	private static String getDate() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
@@ -209,9 +209,9 @@ public class Logger {
 	/**
 	 * Takes screenshot and gets captured screenshot path
 	 * 
-	 * @return Path of Captured Screenshot
+	 * @return {@code String} Path of Captured Screenshot
 	 * @throws IOException
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	private static String takeScreenShot() throws IOException {
 		File ssFile = ((TakesScreenshot) DriverUtils.getDriver()).getScreenshotAs(OutputType.FILE);

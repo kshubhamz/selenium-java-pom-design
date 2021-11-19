@@ -7,7 +7,7 @@ import org.testng.ITestResult;
 /**
  * Class for Logging to Console using log4j
  * 
- * @author shubhamkumar
+ * @author Shubham Kumar
  * @version 2.0
  *
  */
@@ -21,7 +21,7 @@ public class Log {
 	/**
 	 * Logs a separator to console
 	 * 
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	private static void logSeperator() {
 		logger.info("****************************************************************************");
@@ -32,7 +32,7 @@ public class Log {
 	 * Logs test case execution starting message to console
 	 * 
 	 * @param testCaseName Current TestCase Name
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void startTestCase(String testCaseName) {
 		logger.info("TestCase Execution Starting...");
@@ -44,7 +44,7 @@ public class Log {
 	 * Logs test case execution Ended message to console
 	 * 
 	 * @param testCaseName Current TestCase Name
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void endTestCase(String testCaseName) {
 		logger.info("TestCase Execution Ended: " + testCaseName);
@@ -55,7 +55,7 @@ public class Log {
 	 * Logs a info message to console
 	 * 
 	 * @param message
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void info(String message) {
 		logger.info(message);
@@ -65,7 +65,7 @@ public class Log {
 	 * Logs a warning message to console
 	 * 
 	 * @param message
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void warn(String message) {
 		logger.warn(message);
@@ -75,7 +75,7 @@ public class Log {
 	 * Logs a error message to console
 	 * 
 	 * @param message
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void error(String message) {
 		logger.error(message);
@@ -85,7 +85,7 @@ public class Log {
 	 * Logs a fatal message to console
 	 * 
 	 * @param message
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void fatal(String message) {
 		logger.fatal(message);
@@ -95,7 +95,7 @@ public class Log {
 	 * Logs a debug message to console
 	 * 
 	 * @param message
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void debug(String message) {
 		logger.info(message);
@@ -106,7 +106,7 @@ public class Log {
 	 * 
 	 * @param result       Result of completed TestCase
 	 * @param testCaseName TestCaseName of completed TestCase
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static void resultInfo(ITestResult result, String testCaseName) {
 		switch (result.getStatus()) {

@@ -22,9 +22,10 @@ public class ExcelReader {
 	 * @warning id must be in first column
 	 * @param testDataPath Path of excel file
 	 * @param sheetname    sheet name of sheet to be read
-	 * @return Mapping of id with Column Name and Column Value
+	 * @return {@code Map<String, Map<String, String>>} Mapping of id with Column
+	 *         Name and Column Value
 	 * @throws IOException
-	 * @author shubhamkumar
+	 * @author Shubham Kumar
 	 */
 	public static Map<String, Map<String, String>> readExcel(String testDataPath, String sheetname) throws IOException {
 		Map<String, Map<String, String>> map = new HashedMap<>();
@@ -56,9 +57,9 @@ public class ExcelReader {
 	 * Get cell value of a cell
 	 * 
 	 * @param cell
-	 * @return String representation of cell value. Date is formatted to DD/MM/YYYY
-	 *         and number is formatted to 1 decimal place
-	 * @author shubhamkumar
+	 * @return {@code String} representation of cell value. Date is formatted to
+	 *         DD/MM/YYYY and number is formatted to 1 decimal place
+	 * @author Shubham Kumar
 	 */
 	private static String getCellValue(XSSFCell cell) {
 		try {
