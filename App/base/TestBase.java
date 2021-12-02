@@ -106,4 +106,14 @@ public class TestBase {
 		return TestObjects.getRunProperties().getProperty(property).trim();
 	}
 
+	/**
+	 * Sets run configuration for the test
+	 * 
+	 * @throws IOException
+	 * @author Shubham Kumar
+	 */
+	public static void setRunProperties() throws IOException {
+		TestObjects.setRunProperties();
+	}
+
 }

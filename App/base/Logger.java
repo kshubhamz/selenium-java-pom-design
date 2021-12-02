@@ -38,11 +38,7 @@ public class Logger {
 	private static ExtentReports extent;
 	private static ExtentSparkReporter sparkReporter;
 	private static ExtentTest logger;
-
-	private Logger() {
-
-	}
-
+	
 	/**
 	 * Sets a browser instance and open the url in set browser
 	 * 
@@ -101,7 +97,7 @@ public class Logger {
 	 * @author Shubham Kumar
 	 */
 	@AfterMethod
-	public static void getResult(ITestResult result) throws IOException {
+	public void getResult(ITestResult result) throws IOException {
 		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
 			String testcaseName = result.getName();
 			if (result.getStatus() == ITestResult.SUCCESS) {
