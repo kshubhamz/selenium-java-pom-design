@@ -15,6 +15,8 @@ import org.openqa.selenium.safari.SafariDriver;
 
 public class DriverUtils {
 	private static WebDriver driver;
+	private static final int scriptTimeOut = 10;
+	private static final int implicitWait = 30;
 
 	private DriverUtils() {
 
@@ -87,8 +89,47 @@ public class DriverUtils {
 		}
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
-		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(10));
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(scriptTimeOut));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
+	}
+
+	/**
+	 * Turns implicit wait off the current instance of driver i.e. sets it to 0ms
+	 * 
+	 * @author Shubham Kumar
+	 */
+	public static void turnImplicitWaitOff() {
+		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(0));
+	}
+
+	/**
+	 * Turns implicit wait on the current instance of driver i.e. sets it to 30s
+	 * i.e. default for the current suite
+	 * 
+	 * @author Shubham Kumar
+	 */
+	public static void turnImplicitWaitOn() {
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
+	}
+
+	/**
+	 * Sets scriptTimeout of the current instance of the driver to specified time
+	 * 
+	 * @param timeInSeconds
+	 * @author Shubham Kumar
+	 */
+	public static void setScriptTimeout(int timeInSeconds) {
+		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(timeInSeconds));
+	}
+
+	/**
+	 * Sets scriptTimeout of the current instance of the driver to 10s i.e. default
+	 * script timeout for the current suite
+	 * 
+	 * @author Shubham Kumar
+	 */
+	public static void resetScriptTimeout() {
+		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(scriptTimeOut));
 	}
 
 }

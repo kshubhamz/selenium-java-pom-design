@@ -4,7 +4,6 @@ import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -32,8 +31,9 @@ public class Waits {
 	 */
 	public static void waitFor(int timeInseconds) {
 		try {
+			int timeInMs = timeInseconds * 1000;
 			Log.info("Waiting for " + timeInseconds + " second..");
-			Thread.sleep(timeInseconds * 1000);
+			Thread.sleep(timeInMs);
 		} catch (InterruptedException ie) {
 			ie.printStackTrace();
 		}
@@ -47,13 +47,8 @@ public class Waits {
 	 */
 	public static void waitForPageLoad(int maxTime) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(maxTime));
-		wait.pollingEvery(Duration.ofSeconds(1)).until(new ExpectedCondition<Boolean>() {
-
-			@Override
-			public Boolean apply(WebDriver input) {
-				return JSHelper.getReadyStateOfDocument().equalsIgnoreCase("complete");
-			}
-		});
+		wait.pollingEvery(Duration.ofSeconds(1))
+				.until(input -> JSHelper.getReadyStateOfDocument().equalsIgnoreCase("complete"));
 	}
 
 	/**
@@ -67,13 +62,7 @@ public class Waits {
 	public static void waitForPageLoad(String pageTitle, int maxTime) {
 		Log.info("waiting for " + pageTitle + " to load..");
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(maxTime));
-		wait.pollingEvery(Duration.ofSeconds(1)).until(new ExpectedCondition<Boolean>() {
-
-			@Override
-			public Boolean apply(WebDriver input) {
-				return JSHelper.getTitleOfPage().equalsIgnoreCase(pageTitle);
-			}
-		});
+		wait.pollingEvery(Duration.ofSeconds(1)).until(input -> JSHelper.getTitleOfPage().equalsIgnoreCase(pageTitle));
 		waitForPageLoad(maxTime);
 		Log.info(pageTitle + " loaded successfully..");
 	}
@@ -86,8 +75,11 @@ public class Waits {
 	 * @author Shubham Kumar
 	 */
 	public static void waitForVisibilityOf(By selector, int maxTime) {
+		DriverUtils.turnImplicitWaitOff();
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(maxTime));
 		wait.pollingEvery(Duration.ofMillis(5)).until(ExpectedConditions.visibilityOfElementLocated(selector));
+		wait.pollingEvery(Duration.ofMillis(5)).until(ExpectedConditions.elementToBeClickable(selector));
+		DriverUtils.turnImplicitWaitOn();
 	}
 
 	/**
@@ -98,8 +90,10 @@ public class Waits {
 	 * @author Shubham Kumar
 	 */
 	public static void waitForInvisibilityOf(By selector, int maxTime) {
+		DriverUtils.turnImplicitWaitOff();
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(maxTime));
 		wait.pollingEvery(Duration.ofMillis(5)).until(ExpectedConditions.invisibilityOfElementLocated(selector));
+		DriverUtils.turnImplicitWaitOn();
 	}
 
 	public static void waitForInvisibilityOfLoader(int maxTime) throws Exception {
