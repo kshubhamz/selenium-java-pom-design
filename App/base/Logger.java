@@ -38,7 +38,7 @@ public class Logger {
 	private static ExtentReports extent;
 	private static ExtentSparkReporter sparkReporter;
 	private static ExtentTest logger;
-	
+
 	/**
 	 * Sets a browser instance and open the url in set browser
 	 * 
@@ -50,7 +50,8 @@ public class Logger {
 	public static void initialize(@Optional("NA") String browserType, @Optional("NA") String url) {
 		if (!url.equals("NA")) {
 			Log.info("url received: " + url);
-			DriverUtils.setDriver(browserType, TestBase.getProperty("INCOGNITO_MODE").equalsIgnoreCase("Yes"));
+			DriverUtils.setDriver(browserType, ("Yes").equalsIgnoreCase(TestBase.getProperty("INCOGNITO_MODE")),
+					("Yes").equalsIgnoreCase(TestBase.getProperty("HEADLESS")));
 			DriverUtils.getDriver().get(url);
 		}
 	}
@@ -65,7 +66,7 @@ public class Logger {
 	 */
 	@Parameters({ "browserType" })
 	public static void startReport(String testDataPath, String sheetName, @Optional("NA") String browserType) {
-		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
+		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			extent = new ExtentReports();
 			sparkReporter = new ExtentSparkReporter(new File("./Reports/Test_RunReport " + getDate() + ".html"));
 			extent.attachReporter(sparkReporter);
@@ -84,7 +85,7 @@ public class Logger {
 	 */
 	@BeforeMethod
 	public void startTestMethod(Method method) {
-		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
+		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			logger = extent.createTest(method.getName());
 		}
 	}
@@ -98,7 +99,7 @@ public class Logger {
 	 */
 	@AfterMethod
 	public void getResult(ITestResult result) throws IOException {
-		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
+		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			String testcaseName = result.getName();
 			if (result.getStatus() == ITestResult.SUCCESS) {
 				logger.log(Status.PASS,
@@ -125,7 +126,7 @@ public class Logger {
 	 */
 	@AfterTest
 	public void endReport() {
-		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
+		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			extent.flush();
 		}
 	}
@@ -147,7 +148,7 @@ public class Logger {
 	 * @author Shubham Kumar
 	 */
 	public static void info(String message) {
-		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
+		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			logger.log(Status.INFO, message);
 		}
 		Log.info(message);
@@ -160,7 +161,7 @@ public class Logger {
 	 * @author Shubham Kumar
 	 */
 	public static void boldInfo(String message) {
-		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
+		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			logger.log(Status.INFO, "<strong>" + message + "</strong>");
 		}
 		Log.info(message);
@@ -173,7 +174,7 @@ public class Logger {
 	 * @author Shubham Kumar
 	 */
 	public static void itallicInfo(String message) {
-		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
+		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			logger.log(Status.INFO, "em style='font-size:10px'>" + message + "</em>");
 		}
 		Log.info(message);
@@ -186,7 +187,7 @@ public class Logger {
 	 * @author Shubham Kumar
 	 */
 	public static void fail() throws IOException {
-		if (TestBase.getProperty("GENERATE_HTML_REPORT").equalsIgnoreCase("Yes")) {
+		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			logger.addScreenCaptureFromPath(takeScreenShot());
 		}
 	}

@@ -40,7 +40,7 @@ public class DriverUtils {
 	 * @param privateMode
 	 * @author Shubham Kumar
 	 */
-	public static void setDriver(String browserName, boolean privateMode) {
+	public static void setDriver(String browserName, boolean privateMode, boolean headless) {
 		switch (browserName.toLowerCase()) {
 		case "chrome":
 			System.setProperty("webdriver.chrome.driver", "./Driver/chromedriver.exe");
@@ -48,6 +48,7 @@ public class DriverUtils {
 			if (privateMode) {
 				optionsC.addArguments("--incognito");
 			}
+			optionsC.setHeadless(headless);
 			driver = new ChromeDriver(optionsC);
 			break;
 		case "firefox":
@@ -56,6 +57,7 @@ public class DriverUtils {
 			if (privateMode) {
 				optionsF.addArguments("-private");
 			}
+			optionsF.setHeadless(headless);
 			driver = new FirefoxDriver(optionsF);
 			break;
 		case "edge":
@@ -64,19 +66,12 @@ public class DriverUtils {
 			if (privateMode) {
 				optionE.addArguments("-inprivate");
 			}
+			optionE.setHeadless(headless);
 			driver = new EdgeDriver(optionE);
 			break;
 		case "safari":
 			System.setProperty("webdriver.safari.driver", "./Driver/safaridriver.exe");
 			driver = new SafariDriver();
-			break;
-		case "opera":
-			System.setProperty("webdriver.opera.driver", "./Driver/operadriver.exe");
-			OperaOptions optionO = new OperaOptions();
-			if (privateMode) {
-				optionO.addArguments("-private");
-			}
-			driver = new OperaDriver(optionO);
 			break;
 		default:
 			System.setProperty("webdriver.chrome.driver", "./Driver/chromedriver.exe");
@@ -84,6 +79,7 @@ public class DriverUtils {
 			if (privateMode) {
 				optionsC1.addArguments("--incognito");
 			}
+			optionsC1.setHeadless(headless);
 			driver = new ChromeDriver(optionsC1);
 			break;
 		}
