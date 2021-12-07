@@ -200,7 +200,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndClick(WebElement el, String name) {
-		Commons.scrollToCenterOfView(el);
+		JSHelper.scrollToCenterOfView(el);
 		el.click();
 		Log.info("Clicked on " + name);
 	}
@@ -213,7 +213,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndClick(By selector, String name) {
-		Commons.scrollToCenterOfView(selector);
+		JSHelper.scrollToCenterOfView(selector);
 		driver.findElement(selector).click();
 		Log.info("Clicked on " + name);
 	}
@@ -227,7 +227,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndClickAndCaptureScreen(WebElement el, String name) {
-		Commons.scrollToCenterOfView(el);
+		JSHelper.scrollToCenterOfView(el);
 		el.click();
 		Log.info("Clicked on " + name);
 		Commons.captureScreenshot();
@@ -242,7 +242,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndClickAndCaptureScreen(By selector, String name) {
-		Commons.scrollToCenterOfView(selector);
+		JSHelper.scrollToCenterOfView(selector);
 		driver.findElement(selector).click();
 		Log.info("Clicked on " + name);
 		Commons.captureScreenshot();
@@ -260,7 +260,7 @@ public class ActionHelper {
 	 */
 	public static void scrollAndClickAndWaitForLoaderDisappear(WebElement el, String name, int maxTime)
 			throws Exception {
-		Commons.scrollToCenterOfView(el);
+		JSHelper.scrollToCenterOfView(el);
 		el.click();
 		Log.info("Clicked on " + name);
 		Waits.waitFor(1);
@@ -278,7 +278,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndClickAndWaitForLoaderDisappear(By selector, String name, int maxTime) throws Exception {
-		Commons.scrollToCenterOfView(selector);
+		JSHelper.scrollToCenterOfView(selector);
 		driver.findElement(selector).click();
 		Log.info("Clicked on " + name);
 		Waits.waitFor(1);
@@ -297,7 +297,7 @@ public class ActionHelper {
 	 */
 	public static void scrollAndClickAndWaitForLoaderDisappearAndCaptureScreen(WebElement el, String name, int maxTime)
 			throws Exception {
-		Commons.scrollToCenterOfView(el);
+		JSHelper.scrollToCenterOfView(el);
 		el.click();
 		Log.info("Clicked on " + name);
 		Waits.waitFor(1);
@@ -317,7 +317,7 @@ public class ActionHelper {
 	 */
 	public static void scrollAndClickAndWaitForLoaderDisappearAndCaptureScreen(By selector, String name, int maxTime)
 			throws Exception {
-		Commons.scrollToCenterOfView(selector);
+		JSHelper.scrollToCenterOfView(selector);
 		driver.findElement(selector).click();
 		Log.info("Clicked on " + name);
 		Waits.waitFor(1);
@@ -390,7 +390,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndEnterText(WebElement el, String name, String value) {
-		Commons.scrollToCenterOfView(el);
+		JSHelper.scrollToCenterOfView(el);
 		el.sendKeys(value);
 		Log.info("Entered " + value + " in " + name);
 	}
@@ -404,7 +404,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndEnterText(By selector, String name, String value) {
-		Commons.scrollToCenterOfView(selector);
+		JSHelper.scrollToCenterOfView(selector);
 		driver.findElement(selector).sendKeys(value);
 		Log.info("Entered " + value + " in " + name);
 	}
@@ -419,7 +419,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndEnterTextAndCaptureScreen(WebElement el, String name, String value) {
-		Commons.scrollToCenterOfView(el);
+		JSHelper.scrollToCenterOfView(el);
 		el.sendKeys(value);
 		Log.info("Entered " + value + " in " + name);
 		Commons.captureScreenshot();
@@ -435,7 +435,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndEnterTextAndCaptureScreen(By selector, String name, String value) {
-		Commons.scrollToCenterOfView(selector);
+		JSHelper.scrollToCenterOfView(selector);
 		driver.findElement(selector).sendKeys(value);
 		Log.info("Entered " + value + " in " + name);
 		Commons.captureScreenshot();
@@ -508,7 +508,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndSelectFromDropdownByVisibleText(WebElement el, String option, String dropdownName) {
-		Commons.scrollToCenterOfView(el);
+		JSHelper.scrollToCenterOfView(el);
 		new Select(el).selectByVisibleText(option);
 		Log.info("Selected from " + dropdownName + " - " + option);
 	}
@@ -522,7 +522,7 @@ public class ActionHelper {
 	 * @author Shubham Kumar
 	 */
 	public static void scrollAndSelectFromDropdownByVisibleText(By selector, String option, String dropdownName) {
-		Commons.scrollToCenterOfView(selector);
+		JSHelper.scrollToCenterOfView(selector);
 		new Select(driver.findElement(selector)).selectByVisibleText(option);
 		Log.info("Selected from " + dropdownName + " - " + option);
 	}
@@ -538,7 +538,7 @@ public class ActionHelper {
 	 */
 	public static void scrollAndSelectFromDropdownByVisibleTextAndCaptureScreen(WebElement el, String option,
 			String dropdownName) {
-		Commons.scrollToCenterOfView(el);
+		JSHelper.scrollToCenterOfView(el);
 		new Select(el).selectByVisibleText(option);
 		Log.info("Selected from " + dropdownName + " - " + option);
 		Commons.captureScreenshot();
@@ -555,7 +555,7 @@ public class ActionHelper {
 	 */
 	public static void scrollAndSelectFromDropdownByVisibleTextAndCaptureScreen(By selector, String option,
 			String dropdownName) {
-		Commons.scrollToCenterOfView(selector);
+		JSHelper.scrollToCenterOfView(selector);
 		new Select(driver.findElement(selector)).selectByVisibleText(option);
 		Log.info("Selected from " + dropdownName + " - " + option);
 		Commons.captureScreenshot();

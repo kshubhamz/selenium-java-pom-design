@@ -162,4 +162,27 @@ public class Commons extends JSHelper {
 	public static WebElement getFirstSelectedOptionFromDropdown(By selector) {
 		return new Select(driver.findElement(selector)).getFirstSelectedOption();
 	}
+
+	/**
+	 * Gets expression which is used to compare text in x-path ignoring case
+	 * 
+	 * @param text Text to compare
+	 * @return {@code String} representation for node
+	 * @author Shubham Kumar
+	 */
+	public static String translateNormalized(String text) {
+		return "translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '"
+				+ text.toLowerCase() + "'";
+	}
+
+	/**
+	 * Gets xpath expression from an xpath
+	 * 
+	 * @param xpath
+	 * @return {@code String} xpath expression
+	 * @author Shubham Kumar
+	 */
+	public static String getXpathExpression(By xpath) {
+		return xpath.toString().substring(10);
+	}
 }
