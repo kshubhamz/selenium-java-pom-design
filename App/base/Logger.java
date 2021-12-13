@@ -38,6 +38,7 @@ public class Logger {
 	private static ExtentReports extent;
 	private static ExtentSparkReporter sparkReporter;
 	private static ExtentTest logger;
+	private static String failedSSFolder;
 
 	/**
 	 * Sets a browser instance and open the url in set browser
@@ -53,6 +54,7 @@ public class Logger {
 			DriverUtils.setDriver(browserType, ("Yes").equalsIgnoreCase(TestBase.getProperty("INCOGNITO_MODE")),
 					("Yes").equalsIgnoreCase(TestBase.getProperty("HEADLESS")));
 			DriverUtils.getDriver().get(url);
+			failedSSFolder = getDate();
 		}
 	}
 
@@ -108,7 +110,7 @@ public class Logger {
 				logger.addScreenCaptureFromPath(takeScreenShot());
 				logger.log(Status.FAIL, MarkupHelper.createLabel("TestCase Failed: " + testcaseName, ExtentColor.RED));
 				logger.log(Status.FAIL,
-						"<span style='color: red; font-weight: bold'>REASON: </span>" + result.getThrowable());
+						"<span style='color: red; font-weight: bold'>REASON: </span>" + result.getThrowable().getLocalizedMessage());
 			} else if (result.getStatus() == ITestResult.SKIP) {
 				logger.log(Status.SKIP,
 						MarkupHelper.createLabel("TestCase skipped: " + testcaseName, ExtentColor.YELLOW));
@@ -213,7 +215,7 @@ public class Logger {
 	private static String takeScreenShot() throws IOException {
 		File ssFile = ((TakesScreenshot) DriverUtils.getDriver()).getScreenshotAs(OutputType.FILE);
 		File destinationFile = new File(
-				"./Results/FailedTCScreenShots/" + getDate() + "/" + System.currentTimeMillis() + ".png");
+				"./Results/FailedTCScreenShots/" + failedSSFolder + "/" + System.currentTimeMillis() + ".png");
 		String dest = destinationFile.getCanonicalPath();
 		FileUtils.copyFile(ssFile, new File(dest));
 		return dest;

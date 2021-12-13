@@ -100,7 +100,7 @@ public class Commons extends JSHelper {
 	 * @param data
 	 * @author Shubham Kumar
 	 */
-	public static void writeToExcel(String columnName, String data) {
+	public static void writeToExcel(String columnName, String data, String ...otherProps) {
 		try (FileInputStream fis = new FileInputStream(TestBase.testDataFile)) {
 			XSSFWorkbook wb = new XSSFWorkbook(fis);
 			XSSFSheet sh = wb.getSheet(TestBase.sheetName);
@@ -135,7 +135,7 @@ public class Commons extends JSHelper {
 			wb.write(fos);
 			wb.close();
 			fos.close();
-			TestBase.setTestData();
+			if (otherProps.length == 0) TestBase.setTestData();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}

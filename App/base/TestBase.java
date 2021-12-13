@@ -65,10 +65,10 @@ public class TestBase {
 	 * @param testId
 	 * @author Shubham Kumar
 	 */
-	public static void setTestID(String testId) {
+	public static void setTestID(String testId, String ...otherProps) {
 		testCaseName = testId;
 		TestObjects.setTestID(testId);
-		Log.startTestCase(testId);
+		if (otherProps.length == 0) Log.startTestCase(testId);
 	}
 
 	/**

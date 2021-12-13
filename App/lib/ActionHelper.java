@@ -28,24 +28,20 @@ public class ActionHelper {
 	 * Moves to the specified element
 	 * 
 	 * @param el
-	 * @param name
 	 * @author Shubham Kumar
 	 */
-	public static void moveTo(WebElement el, String name) {
+	public static void moveTo(WebElement el) {
 		new Actions(driver).moveToElement(el);
-		Log.info("Clicked on " + name);
 	}
 
 	/**
 	 * Moves to the specified selector
 	 * 
 	 * @param selector
-	 * @param name
 	 * @author Shubham Kumar
 	 */
-	public static void moveTo(By selector, String name) {
+	public static void moveTo(By selector) {
 		new Actions(driver).moveToElement(driver.findElement(selector));
-		Log.info("Clicked on " + name);
 	}
 
 	/**
