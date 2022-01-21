@@ -5,25 +5,30 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import lib.Log;
+import types.TestObj;
 import utils.ExcelReader;
 
 /**
  * Class for interacting with TestData and run-properties
  * 
  * @author Shubham Kumar
- * @version 2.0
+ * @version 2.1
  *
  */
 public class TestBase {
-	public static String testCaseName;
-	public static String sheetName;
-	public static String testDataFile;
-	public static String folderPath;
+	public String testCaseName;
+	public String sheetName;
+	public String testDataFile;
+	public String folderPath;
+	private TestObjects testObjects;
+	public Map<TestObj	, Object> testObj = new LinkedHashMap<>();
 
-	private TestBase() {
-
+	public TestBase() {
+		this.testObjects = new TestObjects();
+		testObj.put(TestObj.TESTBASE, this);
 	}
 
 	/**
@@ -32,8 +37,8 @@ public class TestBase {
 	 * @throws IOException
 	 * @author Shubham Kumar
 	 */
-	public static void setTestData() throws IOException {
-		TestObjects.testData = ExcelReader.readExcel(testDataFile, sheetName);
+	public void setTestData() throws IOException {
+		testObjects.testData = ExcelReader.readExcel(testDataFile, sheetName);
 	}
 
 	/**
@@ -43,8 +48,8 @@ public class TestBase {
 	 * @return {@code String} Data for particular column for current running test
 	 * @author Shubham Kumar
 	 */
-	public static String getData(String colName) {
-		return TestObjects.getColValue(colName);
+	public String getData(String colName) {
+		return testObjects.getColValue(colName);
 	}
 
 	/**
@@ -54,7 +59,7 @@ public class TestBase {
 	 * @param sheet
 	 * @author Shubham Kumar
 	 */
-	public static void setDataParameters(String filePath, String sheet) {
+	public void setDataParameters(String filePath, String sheet) {
 		sheetName = sheet;
 		testDataFile = filePath;
 	}
@@ -65,10 +70,9 @@ public class TestBase {
 	 * @param testId
 	 * @author Shubham Kumar
 	 */
-	public static void setTestID(String testId, String ...otherProps) {
+	public void setTestID(String testId) {
 		testCaseName = testId;
-		TestObjects.setTestID(testId);
-		if (otherProps.length == 0) Log.startTestCase(testId);
+		testObjects.setTestID(testId);
 	}
 
 	/**
@@ -77,8 +81,8 @@ public class TestBase {
 	 * @return {@code String}
 	 * @author Shubham Kumar
 	 */
-	public static String getTestID() {
-		return TestObjects.getTestID();
+	public String getTestID() {
+		return testObjects.getTestID();
 	}
 
 	/**
@@ -86,10 +90,10 @@ public class TestBase {
 	 * 
 	 * @author Shubham Kumar
 	 */
-	public static void mkdirRoot() {
+	public void mkdirRoot() {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
 		Date date = new Date();
-		String folderName = "./Results/" + TestObjects.getRunProperties().getProperty("APP_NAME").trim()
+		String folderName = "./Results/" + testObjects.getRunProperties().getProperty("APP_NAME").trim()
 				+ "_TC_ScreenShot/" + dateFormat.format(date) + "";
 		folderPath = folderName;
 		new File(folderName).mkdir();
@@ -102,8 +106,8 @@ public class TestBase {
 	 * @return {@code String} Configuration for the specified key
 	 * @author Shubham Kumar
 	 */
-	public static String getProperty(String property) {
-		return TestObjects.getRunProperties().getProperty(property).trim();
+	public String getProperty(String property) {
+		return testObjects.getRunProperties().getProperty(property).trim();
 	}
 
 	/**
@@ -112,8 +116,8 @@ public class TestBase {
 	 * @throws IOException
 	 * @author Shubham Kumar
 	 */
-	public static void setRunProperties() throws IOException {
-		TestObjects.setRunProperties();
+	public void setRunProperties() throws IOException {
+		testObjects.setRunProperties();
 	}
 
 }

@@ -9,18 +9,12 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.safari.SafariDriver;
 
 public class DriverUtils {
-	private static WebDriver driver;
-	private static final int scriptTimeOut = 10;
-	private static final int implicitWait = 30;
-
-	private DriverUtils() {
-
-	}
+	private WebDriver driver;
+	private final int SCRIPT_TIMEOUT = 10;
+	private final int IMPLICIT_WAIT = 30;
 
 	/**
 	 * Get instanced WebDriver
@@ -28,7 +22,7 @@ public class DriverUtils {
 	 * @return {@code WebDriver}
 	 * @author Shubham Kumar
 	 */
-	public static WebDriver getDriver() {
+	public WebDriver getDriver() {
 		return driver;
 	}
 
@@ -40,7 +34,7 @@ public class DriverUtils {
 	 * @param privateMode
 	 * @author Shubham Kumar
 	 */
-	public static void setDriver(String browserName, boolean privateMode, boolean headless) {
+	public void setDriver(String browserName, boolean privateMode, boolean headless) {
 		switch (browserName.toLowerCase()) {
 		case "chrome":
 			System.setProperty("webdriver.chrome.driver", "./Driver/chromedriver.exe");
@@ -85,8 +79,8 @@ public class DriverUtils {
 		}
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
-		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(scriptTimeOut));
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
+		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(SCRIPT_TIMEOUT));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT));
 	}
 
 	/**
@@ -94,8 +88,8 @@ public class DriverUtils {
 	 * 
 	 * @author Shubham Kumar
 	 */
-	public static void turnImplicitWaitOff() {
-		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(0));
+	public void turnImplicitWaitOff() {
+		driver.manage().timeouts().implicitlyWait(Duration.ZERO);
 	}
 
 	/**
@@ -104,8 +98,8 @@ public class DriverUtils {
 	 * 
 	 * @author Shubham Kumar
 	 */
-	public static void turnImplicitWaitOn() {
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
+	public void turnImplicitWaitOn() {
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT));
 	}
 
 	/**
@@ -114,7 +108,7 @@ public class DriverUtils {
 	 * @param timeInSeconds
 	 * @author Shubham Kumar
 	 */
-	public static void setScriptTimeout(int timeInSeconds) {
+	public void setScriptTimeout(int timeInSeconds) {
 		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(timeInSeconds));
 	}
 
@@ -124,8 +118,8 @@ public class DriverUtils {
 	 * 
 	 * @author Shubham Kumar
 	 */
-	public static void resetScriptTimeout() {
-		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(scriptTimeOut));
+	public void resetScriptTimeout() {
+		driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(SCRIPT_TIMEOUT));
 	}
 
 }

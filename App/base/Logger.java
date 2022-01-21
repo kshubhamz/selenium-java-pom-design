@@ -24,21 +24,34 @@ import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
+import lib.ActionHelper;
+import lib.Commons;
 import lib.Log;
+import lib.Waits;
+import types.TestObj;
 import utils.DriverUtils;
 
 /**
  * Class for setting various parameters for the Test Execution to start
  * 
  * @author Shubham Kumar
- * @version 2.0
+ * @version 2.1
  *
  */
 public class Logger {
-	private static ExtentReports extent;
-	private static ExtentSparkReporter sparkReporter;
-	private static ExtentTest logger;
-	private static String failedSSFolder;
+	private ExtentReports extent;
+	private ExtentSparkReporter sparkReporter;
+	private ExtentTest logger;
+	private String failedSSFolder;
+	protected TestBase TestBase = new TestBase();
+	protected DriverUtils driverUtils = new DriverUtils();
+	protected Log log = new Log();
+	
+	public Logger() {
+		TestBase.testObj.put(TestObj.LOG, log);
+		TestBase.testObj.put(TestObj.DRIVER_UTILS, driverUtils);
+		TestBase.testObj.put(TestObj.LOGGER, this);
+	}
 
 	/**
 	 * Sets a browser instance and open the url in set browser
@@ -48,13 +61,19 @@ public class Logger {
 	 * @author Shubham Kumar
 	 */
 	@Parameters({ "browserType", "url" })
-	public static void initialize(@Optional("NA") String browserType, @Optional("NA") String url) {
+	public void initialize(@Optional("NA") String browserType, @Optional("NA") String url) {
 		if (!url.equals("NA")) {
-			Log.info("url received: " + url);
-			DriverUtils.setDriver(browserType, ("Yes").equalsIgnoreCase(TestBase.getProperty("INCOGNITO_MODE")),
+			log.info("url received: " + url);
+			driverUtils.setDriver(browserType, ("Yes").equalsIgnoreCase(TestBase.getProperty("INCOGNITO_MODE")),
 					("Yes").equalsIgnoreCase(TestBase.getProperty("HEADLESS")));
-			DriverUtils.getDriver().get(url);
+			driverUtils.getDriver().get(url);
 			failedSSFolder = getDate();
+			
+			// setting driver and others
+			TestBase.testObj.put(TestObj.DRIVER, driverUtils.getDriver());
+			TestBase.testObj.put(TestObj.COMMONS, new Commons(TestBase));
+			TestBase.testObj.put(TestObj.WAITS, new Waits(TestBase));
+			TestBase.testObj.put(TestObj.ACTION_HELPER, new ActionHelper(TestBase));
 		}
 	}
 
@@ -67,7 +86,7 @@ public class Logger {
 	 * @author Shubham Kumar
 	 */
 	@Parameters({ "browserType" })
-	public static void startReport(String testDataPath, String sheetName, @Optional("NA") String browserType) {
+	public void startReport(String testDataPath, String sheetName, @Optional("NA") String browserType) {
 		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			extent = new ExtentReports();
 			sparkReporter = new ExtentSparkReporter(new File("./Reports/Test_RunReport " + getDate() + ".html"));
@@ -117,8 +136,8 @@ public class Logger {
 			}
 		}
 
-		Log.resultInfo(result, TestBase.getTestID());
-		Log.endTestCase(TestBase.getTestID());
+		log.resultInfo(result, TestBase.getTestID());
+		log.endTestCase(TestBase.getTestID());
 	}
 
 	/**
@@ -140,7 +159,7 @@ public class Logger {
 	 */
 	@AfterClass
 	public void endDriver() {
-		DriverUtils.getDriver().quit();
+		driverUtils.getDriver().quit();
 	}
 
 	/**
@@ -149,11 +168,11 @@ public class Logger {
 	 * @param message
 	 * @author Shubham Kumar
 	 */
-	public static void info(String message) {
+	public void info(String message) {
 		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			logger.log(Status.INFO, message);
 		}
-		Log.info(message);
+		log.info(message);
 	}
 
 	/**
@@ -162,11 +181,11 @@ public class Logger {
 	 * @param message
 	 * @author Shubham Kumar
 	 */
-	public static void boldInfo(String message) {
+	public void boldInfo(String message) {
 		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			logger.log(Status.INFO, "<strong>" + message + "</strong>");
 		}
-		Log.info(message);
+		log.info(message);
 	}
 
 	/**
@@ -175,11 +194,11 @@ public class Logger {
 	 * @param message
 	 * @author Shubham Kumar
 	 */
-	public static void itallicInfo(String message) {
+	public void itallicInfo(String message) {
 		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			logger.log(Status.INFO, "em style='font-size:10px'>" + message + "</em>");
 		}
-		Log.info(message);
+		log.info(message);
 	}
 
 	/**
@@ -188,7 +207,7 @@ public class Logger {
 	 * @throws IOException
 	 * @author Shubham Kumar
 	 */
-	public static void fail() throws IOException {
+	public void fail() throws IOException {
 		if (("Yes").equalsIgnoreCase(TestBase.getProperty("GENERATE_HTML_REPORT"))) {
 			logger.addScreenCaptureFromPath(takeScreenShot());
 		}
@@ -200,7 +219,7 @@ public class Logger {
 	 * @return {@code String} Current Date of format dd-MM-yyyy_HH-mm-ss
 	 * @author Shubham Kumar
 	 */
-	private static String getDate() {
+	private String getDate() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
 		return sdf.format(new Date());
 	}
@@ -212,8 +231,8 @@ public class Logger {
 	 * @throws IOException
 	 * @author Shubham Kumar
 	 */
-	private static String takeScreenShot() throws IOException {
-		File ssFile = ((TakesScreenshot) DriverUtils.getDriver()).getScreenshotAs(OutputType.FILE);
+	private String takeScreenShot() throws IOException {
+		File ssFile = ((TakesScreenshot) driverUtils.getDriver()).getScreenshotAs(OutputType.FILE);
 		File destinationFile = new File(
 				"./Results/FailedTCScreenShots/" + failedSSFolder + "/" + System.currentTimeMillis() + ".png");
 		String dest = destinationFile.getCanonicalPath();

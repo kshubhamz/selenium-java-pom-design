@@ -8,40 +8,113 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-import utils.DriverUtils;
+import base.TestBase;
+import types.TestObj;
 
 /**
  * Class for performing various actions or combination of actions on Client side
  * 
- * @author Shubham Kumar
- * @version 2.0
- *
+ * @version 2.1
  */
+
 public class ActionHelper {
-	private static WebDriver driver = DriverUtils.getDriver();
+	private WebDriver driver;
+	private Commons commons;
+	private Waits waits;
+	private Log log;
 
-	private ActionHelper() {
+	public ActionHelper(TestBase t) {
+		this.driver = (WebDriver) t.testObj.get(TestObj.DRIVER);
+		this.commons = (Commons) t.testObj.get(TestObj.COMMONS);
+		this.waits = (Waits) t.testObj.get(TestObj.WAITS);
+		this.log = (Log) t.testObj.get(TestObj.LOG);
+	}
 
+	/**
+	 * Scroll the provided WebElement to center of viewport
+	 * 
+	 * @param el
+	 * @return {@code ActionHelper}
+	 * @return {@code ActionHelper}
+	 * @author Shubham Kumar
+	 */
+	public ActionHelper scrollTo(WebElement el) {
+		commons.scrollToCenterOfView(el);
+		return this;
+	}
+
+	/**
+	 * Scroll the provided selector to center of viewport
+	 * 
+	 * @param el
+	 * @return {@code ActionHelper}
+	 * @return {@code ActionHelper}
+	 * @author Shubham Kumar
+	 */
+	public ActionHelper scrollTo(By selector) {
+		commons.scrollToCenterOfView(selector);
+		return this;
+	}
+
+	/**
+	 * Capture current view
+	 * 
+	 * @return {@code ActionHelper}
+	 * @return {@code ActionHelper}
+	 * @author Shubham Kumar
+	 */
+	public ActionHelper captureScreen() {
+		commons.captureScreenshot();
+		return this;
+	}
+
+	/**
+	 * Pause for 1 second
+	 * 
+	 * @return {@code ActionHelper}
+	 * @return {@code ActionHelper}
+	 * @author Shubham Kumar
+	 */
+	public ActionHelper pause() {
+		waits.waitFor(1);
+		return this;
+	}
+
+	/**
+	 * Wait for loader to disappear
+	 * 
+	 * @param maxTime
+	 * @return {@code ActionHelper}
+	 * @return {@code ActionHelper}
+	 * @author Shubham Kumar
+	 */
+	public ActionHelper waitForLoader(int maxTime) throws Exception {
+		waits.waitForInvisibilityOfLoader(maxTime);
+		return this;
 	}
 
 	/**
 	 * Moves to the specified element
 	 * 
 	 * @param el
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void moveTo(WebElement el) {
+	public ActionHelper moveTo(WebElement el) {
 		new Actions(driver).moveToElement(el);
+		return this;
 	}
 
 	/**
 	 * Moves to the specified selector
 	 * 
 	 * @param selector
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void moveTo(By selector) {
+	public ActionHelper moveTo(By selector) {
 		new Actions(driver).moveToElement(driver.findElement(selector));
+		return this;
 	}
 
 	/**
@@ -49,11 +122,13 @@ public class ActionHelper {
 	 * 
 	 * @param el
 	 * @param name
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void mouseClickOn(WebElement el, String name) {
+	public ActionHelper mouseClickOn(WebElement el, String name) {
 		new Actions(driver).moveToElement(el).click().build().perform();
-		Log.info("Clicked on " + name);
+		log.info("Clicked on " + name);
+		return this;
 	}
 
 	/**
@@ -61,11 +136,13 @@ public class ActionHelper {
 	 * 
 	 * @param selector
 	 * @param name
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void mouseClickOn(By selector, String name) {
+	public ActionHelper mouseClickOn(By selector, String name) {
 		new Actions(driver).moveToElement(driver.findElement(selector)).click().build().perform();
-		Log.info("Clicked on " + name);
+		log.info("Clicked on " + name);
+		return this;
 	}
 
 	/**
@@ -73,11 +150,13 @@ public class ActionHelper {
 	 * 
 	 * @param el
 	 * @param name
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void click(WebElement el, String name) {
+	public ActionHelper click(WebElement el, String name) {
 		el.click();
-		Log.info("Clicked on " + name);
+		log.info("Clicked on " + name);
+		return this;
 	}
 
 	/**
@@ -85,240 +164,13 @@ public class ActionHelper {
 	 * 
 	 * @param selector
 	 * @param name
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void click(By selector, String name) {
+	public ActionHelper click(By selector, String name) {
 		driver.findElement(selector).click();
-		Log.info("Clicked on " + name);
-	}
-
-	/**
-	 * Clicks on the element and then captures the current view
-	 * 
-	 * @param el
-	 * @param name
-	 * @author Shubham Kumar
-	 */
-	public static void clickAndCaptureScreen(WebElement el, String name) {
-		el.click();
-		Log.info("Clicked on " + name);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Clicks on the selector and then captures the current view
-	 * 
-	 * @param selector
-	 * @param name
-	 * @author Shubham Kumar
-	 */
-	public static void clickAndCaptureScreen(By selector, String name) {
-		driver.findElement(selector).click();
-		Log.info("Clicked on " + name);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Clicks on the element and then waits for the loader to disappear
-	 * 
-	 * @param el
-	 * @param name
-	 * @param maxTime
-	 * @throws Exception
-	 * @author Shubham Kumar
-	 */
-	public static void clickAndWaitForLoaderDisappear(WebElement el, String name, int maxTime) throws Exception {
-		el.click();
-		Log.info("Clicked on " + name);
-		Waits.waitFor(1);
-		Waits.waitForInvisibilityOfLoader(maxTime);
-	}
-
-	/**
-	 * Clicks on the selector and then waits for the loader to disappear
-	 * 
-	 * @param selector
-	 * @param name
-	 * @param maxTime
-	 * @throws Exception
-	 * @author Shubham Kumar
-	 */
-	public static void clickAndWaitForLoaderDisappear(By selector, String name, int maxTime) throws Exception {
-		driver.findElement(selector).click();
-		Log.info("Clicked on " + name);
-		Waits.waitFor(1);
-		Waits.waitForInvisibilityOfLoader(maxTime);
-	}
-
-	/**
-	 * Clicks on the element and then waits for the loader to disappear and then
-	 * captures the current view
-	 * 
-	 * @param el
-	 * @param name
-	 * @param maxTime
-	 * @throws Exception
-	 * @author Shubham Kumar
-	 */
-	public static void clickAndWaitForLoaderDisappearAndCaptureScreen(WebElement el, String name, int maxTime)
-			throws Exception {
-		el.click();
-		Log.info("Clicked on " + name);
-		Waits.waitFor(1);
-		Waits.waitForInvisibilityOfLoader(maxTime);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Clicks on the selector and then waits for the loader to disappear and then
-	 * captures the current view
-	 * 
-	 * @param selector
-	 * @param name
-	 * @param maxTime
-	 * @throws Exception
-	 * @author Shubham Kumar
-	 */
-	public static void clickAndWaitForLoaderDisappearAndCaptureScreen(By selector, String name, int maxTime)
-			throws Exception {
-		driver.findElement(selector).click();
-		Log.info("Clicked on " + name);
-		Waits.waitFor(1);
-		Waits.waitForInvisibilityOfLoader(maxTime);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Scroll the element to center of view and then click on the element
-	 * 
-	 * @param el
-	 * @param name
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndClick(WebElement el, String name) {
-		JSHelper.scrollToCenterOfView(el);
-		el.click();
-		Log.info("Clicked on " + name);
-	}
-
-	/**
-	 * Scroll the selector to center of view and then click on the selector
-	 * 
-	 * @param selector
-	 * @param name
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndClick(By selector, String name) {
-		JSHelper.scrollToCenterOfView(selector);
-		driver.findElement(selector).click();
-		Log.info("Clicked on " + name);
-	}
-
-	/**
-	 * Scroll the element to center of view and then click on the element and then
-	 * captures the current view
-	 * 
-	 * @param el
-	 * @param name
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndClickAndCaptureScreen(WebElement el, String name) {
-		JSHelper.scrollToCenterOfView(el);
-		el.click();
-		Log.info("Clicked on " + name);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Scroll the selector to center of view and then click on the selector and then
-	 * captures the current view
-	 * 
-	 * @param selector
-	 * @param name
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndClickAndCaptureScreen(By selector, String name) {
-		JSHelper.scrollToCenterOfView(selector);
-		driver.findElement(selector).click();
-		Log.info("Clicked on " + name);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Scroll the element to center of view and then click on the element and then
-	 * wait for loader to disappear
-	 * 
-	 * @param el
-	 * @param name
-	 * @param maxTime
-	 * @throws Exception
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndClickAndWaitForLoaderDisappear(WebElement el, String name, int maxTime)
-			throws Exception {
-		JSHelper.scrollToCenterOfView(el);
-		el.click();
-		Log.info("Clicked on " + name);
-		Waits.waitFor(1);
-		Waits.waitForInvisibilityOfLoader(maxTime);
-	}
-
-	/**
-	 * Scroll the selector to center of view and then click on the selector and then
-	 * wait for loader to disappear
-	 * 
-	 * @param selector
-	 * @param name
-	 * @param maxTime
-	 * @throws Exception
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndClickAndWaitForLoaderDisappear(By selector, String name, int maxTime) throws Exception {
-		JSHelper.scrollToCenterOfView(selector);
-		driver.findElement(selector).click();
-		Log.info("Clicked on " + name);
-		Waits.waitFor(1);
-		Waits.waitForInvisibilityOfLoader(maxTime);
-	}
-
-	/**
-	 * Scroll the element to center of view and then click on the element and then
-	 * wait for loader to disappear then captures the current view
-	 * 
-	 * @param el
-	 * @param name
-	 * @param maxTime
-	 * @throws Exception
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndClickAndWaitForLoaderDisappearAndCaptureScreen(WebElement el, String name, int maxTime)
-			throws Exception {
-		JSHelper.scrollToCenterOfView(el);
-		el.click();
-		Log.info("Clicked on " + name);
-		Waits.waitFor(1);
-		Waits.waitForInvisibilityOfLoader(maxTime);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Scroll the selector to center of view and then click on the selector and then
-	 * wait for loader to disappear then captures the current view
-	 * 
-	 * @param selector
-	 * @param name
-	 * @param maxTime
-	 * @throws Exception
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndClickAndWaitForLoaderDisappearAndCaptureScreen(By selector, String name, int maxTime)
-			throws Exception {
-		JSHelper.scrollToCenterOfView(selector);
-		driver.findElement(selector).click();
-		Log.info("Clicked on " + name);
-		Waits.waitFor(1);
-		Waits.waitForInvisibilityOfLoader(maxTime);
-		Commons.captureScreenshot();
+		log.info("Clicked on " + name);
+		return this;
 	}
 
 	/**
@@ -327,11 +179,13 @@ public class ActionHelper {
 	 * @param el
 	 * @param name
 	 * @param value
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void enterText(WebElement el, String name, String value) {
+	public ActionHelper enterText(WebElement el, String name, String value) {
 		el.sendKeys(value);
-		Log.info("Entered " + value + " in " + name);
+		log.info("Entered " + value + " in " + name);
+		return this;
 	}
 
 	/**
@@ -340,101 +194,13 @@ public class ActionHelper {
 	 * @param selector
 	 * @param name
 	 * @param value
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void enterText(By selector, String name, String value) {
+	public ActionHelper enterText(By selector, String name, String value) {
 		driver.findElement(selector).sendKeys(value);
-		Log.info("Entered " + value + " in " + name);
-	}
-
-	/**
-	 * Enters the specified text in input type element and then captures the current
-	 * view
-	 * 
-	 * @param el
-	 * @param name
-	 * @param value
-	 * @author Shubham Kumar
-	 */
-	public static void enterTextAndCaptureScreen(WebElement el, String name, String value) {
-		el.sendKeys(value);
-		Log.info("Entered " + value + " in " + name);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Enters the specified text in input type selector and then captures the
-	 * current view
-	 * 
-	 * @param selector
-	 * @param name
-	 * @param value
-	 * @author Shubham Kumar
-	 */
-	public static void enterTextAndCaptureScreen(By selector, String name, String value) {
-		driver.findElement(selector).sendKeys(value);
-		Log.info("Entered " + value + " in " + name);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Scroll and enters specified text in input type element
-	 * 
-	 * @param el
-	 * @param name
-	 * @param value
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndEnterText(WebElement el, String name, String value) {
-		JSHelper.scrollToCenterOfView(el);
-		el.sendKeys(value);
-		Log.info("Entered " + value + " in " + name);
-	}
-
-	/**
-	 * Scroll and enters specified text in input type selector
-	 * 
-	 * @param selector
-	 * @param name
-	 * @param value
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndEnterText(By selector, String name, String value) {
-		JSHelper.scrollToCenterOfView(selector);
-		driver.findElement(selector).sendKeys(value);
-		Log.info("Entered " + value + " in " + name);
-	}
-
-	/**
-	 * Scroll and enters specified text in input type element and then captures the
-	 * current view
-	 * 
-	 * @param el
-	 * @param name
-	 * @param value
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndEnterTextAndCaptureScreen(WebElement el, String name, String value) {
-		JSHelper.scrollToCenterOfView(el);
-		el.sendKeys(value);
-		Log.info("Entered " + value + " in " + name);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Scroll and enters specified text in input type selector and then captures the
-	 * current view
-	 * 
-	 * @param selector
-	 * @param name
-	 * @param value
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndEnterTextAndCaptureScreen(By selector, String name, String value) {
-		JSHelper.scrollToCenterOfView(selector);
-		driver.findElement(selector).sendKeys(value);
-		Log.info("Entered " + value + " in " + name);
-		Commons.captureScreenshot();
+		log.info("Entered " + value + " in " + name);
+		return this;
 	}
 
 	/**
@@ -443,11 +209,13 @@ public class ActionHelper {
 	 * @param el
 	 * @param option
 	 * @param dropdownName
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void selectFromDropdownByVisibleText(WebElement el, String option, String dropdownName) {
+	public ActionHelper selectFromDropdownByVisibleText(WebElement el, String option, String dropdownName) {
 		new Select(el).selectByVisibleText(option);
-		Log.info("Selected from " + dropdownName + " - " + option);
+		log.info("Selected from " + dropdownName + " - " + option);
+		return this;
 	}
 
 	/**
@@ -456,105 +224,13 @@ public class ActionHelper {
 	 * @param selector
 	 * @param option
 	 * @param dropdownName
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void selectFromDropdownByVisibleText(By selector, String option, String dropdownName) {
+	public ActionHelper selectFromDropdownByVisibleText(By selector, String option, String dropdownName) {
 		new Select(driver.findElement(selector)).selectByVisibleText(option);
-		Log.info("Selected from " + dropdownName + " - " + option);
-	}
-
-	/**
-	 * Selects specified option from the dropdown element and then captures the
-	 * current view
-	 * 
-	 * @param el
-	 * @param option
-	 * @param dropdownName
-	 * @author Shubham Kumar
-	 */
-	public static void selectFromDropdownByVisibleTextAndCaptureScreen(WebElement el, String option,
-			String dropdownName) {
-		new Select(el).selectByVisibleText(option);
-		Log.info("Selected from " + dropdownName + " - " + option);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Selects specified option from the dropdown selector and then captures the
-	 * current view
-	 * 
-	 * @param selector
-	 * @param option
-	 * @param dropdownName
-	 * @author Shubham Kumar
-	 */
-	public static void selectFromDropdownByVisibleTextAndCaptureScreen(By selector, String option,
-			String dropdownName) {
-		new Select(driver.findElement(selector)).selectByVisibleText(option);
-		Log.info("Selected from " + dropdownName + " - " + option);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Scroll and Selects specified option from the dropdown element
-	 * 
-	 * @param el
-	 * @param option
-	 * @param dropdownName
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndSelectFromDropdownByVisibleText(WebElement el, String option, String dropdownName) {
-		JSHelper.scrollToCenterOfView(el);
-		new Select(el).selectByVisibleText(option);
-		Log.info("Selected from " + dropdownName + " - " + option);
-	}
-
-	/**
-	 * Scroll and Selects specified option from the dropdown selector
-	 * 
-	 * @param selector
-	 * @param option
-	 * @param dropdownName
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndSelectFromDropdownByVisibleText(By selector, String option, String dropdownName) {
-		JSHelper.scrollToCenterOfView(selector);
-		new Select(driver.findElement(selector)).selectByVisibleText(option);
-		Log.info("Selected from " + dropdownName + " - " + option);
-	}
-
-	/**
-	 * Scroll and Selects specified option from the dropdown element and then
-	 * captures the current view
-	 * 
-	 * @param el
-	 * @param option
-	 * @param dropdownName
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndSelectFromDropdownByVisibleTextAndCaptureScreen(WebElement el, String option,
-			String dropdownName) {
-		JSHelper.scrollToCenterOfView(el);
-		new Select(el).selectByVisibleText(option);
-		Log.info("Selected from " + dropdownName + " - " + option);
-		Commons.captureScreenshot();
-	}
-
-	/**
-	 * Scroll and Selects specified option from the dropdown selector and then
-	 * captures the current view
-	 * 
-	 * @param selector
-	 * @param option
-	 * @param dropdownName
-	 * @author Shubham Kumar
-	 */
-	public static void scrollAndSelectFromDropdownByVisibleTextAndCaptureScreen(By selector, String option,
-			String dropdownName) {
-		JSHelper.scrollToCenterOfView(selector);
-		new Select(driver.findElement(selector)).selectByVisibleText(option);
-		Log.info("Selected from " + dropdownName + " - " + option);
-		Commons.captureScreenshot();
+		log.info("Selected from " + dropdownName + " - " + option);
+		return this;
 	}
 
 	/**
@@ -562,9 +238,10 @@ public class ActionHelper {
 	 * 
 	 * @param el
 	 * @param partialText
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void selectFromDropdownByPartialText(WebElement el, String partialText) {
+	public ActionHelper selectFromDropdownByPartialText(WebElement el, String partialText) {
 		Select dropdown = new Select(el);
 		List<WebElement> options = dropdown.getOptions();
 		for (int i = 0; i < options.size(); i++) {
@@ -573,6 +250,7 @@ public class ActionHelper {
 				break;
 			}
 		}
+		return this;
 	}
 
 	/**
@@ -580,9 +258,10 @@ public class ActionHelper {
 	 * 
 	 * @param selector
 	 * @param partialText
+	 * @return {@code ActionHelper}
 	 * @author Shubham Kumar
 	 */
-	public static void selectFromDropdownByPartialText(By selector, String partialText) {
+	public ActionHelper selectFromDropdownByPartialText(By selector, String partialText) {
 		Select dropdown = new Select(driver.findElement(selector));
 		List<WebElement> options = dropdown.getOptions();
 		for (int i = 0; i < options.size(); i++) {
@@ -591,6 +270,7 @@ public class ActionHelper {
 				break;
 			}
 		}
+		return this;
 	}
 
 }

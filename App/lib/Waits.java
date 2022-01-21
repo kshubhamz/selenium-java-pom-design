@@ -7,20 +7,28 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import base.TestBase;
+import types.TestObj;
 import utils.DriverUtils;
 
 /**
  * Class for handling Synchronisation during Test Execution
  * 
  * @author Shubham Kumar
- * @version 2.0
+ * @version 2.1
  *
  */
 public class Waits {
-	private static WebDriver driver = DriverUtils.getDriver();
+	private WebDriver driver;
+	private DriverUtils driverUtils;
+	private Log log;
+	private Commons commons;
 
-	private Waits() {
-
+	public Waits(TestBase t) {
+		this.driver = (WebDriver) t.testObj.get(TestObj.DRIVER);
+		this.driverUtils = (DriverUtils) t.testObj.get(TestObj.DRIVER_UTILS);
+		this.log = (Log) t.testObj.get(TestObj.LOG);
+		this.commons = (Commons) t.testObj.get(TestObj.COMMONS);
 	}
 
 	/**
@@ -29,10 +37,10 @@ public class Waits {
 	 * @param timeInseconds
 	 * @author Shubham Kumar
 	 */
-	public static void waitFor(int timeInseconds) {
+	public void waitFor(int timeInseconds) {
 		try {
 			int timeInMs = timeInseconds * 1000;
-			Log.info("Waiting for " + timeInseconds + " second..");
+			log.info("Waiting for " + timeInseconds + " second..");
 			Thread.sleep(timeInMs);
 		} catch (InterruptedException ie) {
 			ie.printStackTrace();
@@ -45,10 +53,10 @@ public class Waits {
 	 * @param maxTime in Seconds
 	 * @author Shubham Kumar
 	 */
-	public static void waitForPageLoad(int maxTime) {
+	public void waitForPageLoad(int maxTime) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(maxTime));
 		wait.pollingEvery(Duration.ofSeconds(1))
-				.until(input -> JSHelper.getReadyStateOfDocument().equalsIgnoreCase("complete"));
+				.until(input -> commons.getReadyStateOfDocument().equalsIgnoreCase("complete"));
 	}
 
 	/**
@@ -59,12 +67,12 @@ public class Waits {
 	 * @param maxTime   in Seconds
 	 * @author Shubham Kumar
 	 */
-	public static void waitForPageLoad(String pageTitle, int maxTime) {
-		Log.info("waiting for " + pageTitle + " to load..");
+	public void waitForPageLoad(String pageTitle, int maxTime) {
+		log.info("waiting for " + pageTitle + " to load..");
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(maxTime));
-		wait.pollingEvery(Duration.ofSeconds(1)).until(input -> JSHelper.getTitleOfPage().equalsIgnoreCase(pageTitle));
+		wait.pollingEvery(Duration.ofSeconds(1)).until(input -> commons.getTitleOfPage().equalsIgnoreCase(pageTitle));
 		waitForPageLoad(maxTime);
-		Log.info(pageTitle + " loaded successfully..");
+		log.info(pageTitle + " loaded successfully..");
 	}
 
 	/**
@@ -74,12 +82,12 @@ public class Waits {
 	 * @param maxTime
 	 * @author Shubham Kumar
 	 */
-	public static void waitForVisibilityOf(By selector, int maxTime) {
-		DriverUtils.turnImplicitWaitOff();
+	public void waitForVisibilityOf(By selector, int maxTime) {
+		driverUtils.turnImplicitWaitOff();
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(maxTime));
 		wait.pollingEvery(Duration.ofMillis(5)).until(ExpectedConditions.visibilityOfElementLocated(selector));
 		wait.pollingEvery(Duration.ofMillis(5)).until(ExpectedConditions.elementToBeClickable(selector));
-		DriverUtils.turnImplicitWaitOn();
+		driverUtils.turnImplicitWaitOn();
 	}
 
 	/**
@@ -89,14 +97,14 @@ public class Waits {
 	 * @param maxTime
 	 * @author Shubham Kumar
 	 */
-	public static void waitForInvisibilityOf(By selector, int maxTime) {
-		DriverUtils.turnImplicitWaitOff();
+	public void waitForInvisibilityOf(By selector, int maxTime) {
+		driverUtils.turnImplicitWaitOff();
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(maxTime));
 		wait.pollingEvery(Duration.ofMillis(5)).until(ExpectedConditions.invisibilityOfElementLocated(selector));
-		DriverUtils.turnImplicitWaitOn();
+		driverUtils.turnImplicitWaitOn();
 	}
 
-	public static void waitForInvisibilityOfLoader(int maxTime) throws Exception {
+	public void waitForInvisibilityOfLoader(int maxTime) throws Exception {
 		throw new Exception("This method is not yet implemented");
 	}
 

@@ -1,0 +1,5 @@
+package types;
+
+public enum TestObj {
+	TESTBASE, LOGGER, ACTION_HELPER, COMMONS, LOG, WAITS, DRIVER, DRIVER_UTILS
+}

@@ -5,20 +5,22 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import utils.DriverUtils;
+import base.TestBase;
+import types.TestObj;
 
 /**
  * Class for executing JavaScript on Client side
  * 
  * @author Shubham Kumar
- * @version 2.0
+ * @version 2.1
  */
 class JSHelper {
-	private static WebDriver driver = DriverUtils.getDriver();
-	private static JavascriptExecutor scriptExecutor = (JavascriptExecutor) driver;
+	private WebDriver driver ;
+	private JavascriptExecutor scriptExecutor;
 
-	protected JSHelper() {
-
+	protected JSHelper(TestBase t) {
+		this.driver = (WebDriver) t.testObj.get(TestObj.DRIVER);
+		this.scriptExecutor = (JavascriptExecutor) this.driver;
 	}
 
 	/**
@@ -27,7 +29,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of height
 	 * @author Shubham Kumar
 	 */
-	public static int getInnerHeightOfBroserWindow() {
+	public int getInnerHeightOfBroserWindow() {
 		String innerHeight = scriptExecutor.executeScript("return window.innerHeight;").toString();
 		return Math.round(Float.parseFloat(innerHeight));
 	}
@@ -38,7 +40,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of width
 	 * @author Shubham Kumar
 	 */
-	public static int getInnerWidthOfBroserWindow() {
+	public int getInnerWidthOfBroserWindow() {
 		String innerHeight = scriptExecutor.executeScript("return window.innerWidth;").toString();
 		return Math.round(Float.parseFloat(innerHeight));
 	}
@@ -51,7 +53,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the coordinate
 	 * @author Shubham Kumar
 	 */
-	public static int getBottomLocationOf(WebElement el) {
+	public int getBottomLocationOf(WebElement el) {
 		String bottomLocation = scriptExecutor.executeScript("return arguments[0].getBoundingClientRect().bottom;", el)
 				.toString();
 		return Math.round(Float.parseFloat(bottomLocation));
@@ -65,7 +67,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the coordinate
 	 * @author Shubham Kumar
 	 */
-	public static int getBottomLocationOf(By selector) {
+	public int getBottomLocationOf(By selector) {
 		String bottomLocation = scriptExecutor
 				.executeScript("return arguments[0].getBoundingClientRect().bottom;", driver.findElement(selector))
 				.toString();
@@ -80,7 +82,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the coordinate
 	 * @author Shubham Kumar
 	 */
-	public static int getTopLocationOf(WebElement el) {
+	public int getTopLocationOf(WebElement el) {
 		String topLocation = scriptExecutor.executeScript("return arguments[0].getBoundingClientRect().top;", el)
 				.toString();
 		return Math.round(Float.parseFloat(topLocation));
@@ -94,7 +96,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the coordinate
 	 * @author Shubham Kumar
 	 */
-	public static int getTopLocationOf(By selector) {
+	public int getTopLocationOf(By selector) {
 		String topLocation = scriptExecutor
 				.executeScript("return arguments[0].getBoundingClientRect().top;", driver.findElement(selector))
 				.toString();
@@ -109,7 +111,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the coordinate
 	 * @author Shubham Kumar
 	 */
-	public static int getLeftLocationOf(WebElement el) {
+	public int getLeftLocationOf(WebElement el) {
 		String leftLocation = scriptExecutor.executeScript("return arguments[0].getBoundingClientRect().left;", el)
 				.toString();
 		return Math.round(Float.parseFloat(leftLocation));
@@ -123,7 +125,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the coordinate
 	 * @author Shubham Kumar
 	 */
-	public static int getLeftLocationOf(By selector) {
+	public int getLeftLocationOf(By selector) {
 		String leftLocation = scriptExecutor
 				.executeScript("return arguments[0].getBoundingClientRect().left;", driver.findElement(selector))
 				.toString();
@@ -138,7 +140,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the coordinate
 	 * @author Shubham Kumar
 	 */
-	public static int getRightLocationOf(WebElement el) {
+	public int getRightLocationOf(WebElement el) {
 		String rightLocation = scriptExecutor.executeScript("return arguments[0].getBoundingClientRect().right;", el)
 				.toString();
 		return Math.round(Float.parseFloat(rightLocation));
@@ -152,7 +154,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the coordinate
 	 * @author Shubham Kumar
 	 */
-	public static int getRightLocationOf(By selector) {
+	public int getRightLocationOf(By selector) {
 		String rightLocation = scriptExecutor
 				.executeScript("return arguments[0].getBoundingClientRect().right;", driver.findElement(selector))
 				.toString();
@@ -166,7 +168,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the height
 	 * @author Shubham Kumar
 	 */
-	public static int getHeightOf(WebElement el) {
+	public int getHeightOf(WebElement el) {
 		String height = scriptExecutor.executeScript("return arguments[0].getBoundingClientRect().height;", el)
 				.toString();
 		return Math.round(Float.parseFloat(height));
@@ -179,7 +181,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the height
 	 * @author Shubham Kumar
 	 */
-	public static int getHeightOf(By selector) {
+	public int getHeightOf(By selector) {
 		String height = scriptExecutor
 				.executeScript("return arguments[0].getBoundingClientRect().height;", driver.findElement(selector))
 				.toString();
@@ -193,7 +195,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the width
 	 * @author Shubham Kumar
 	 */
-	public static int getWidthOf(WebElement el) {
+	public int getWidthOf(WebElement el) {
 		String width = scriptExecutor.executeScript("return arguments[0].getBoundingClientRect().width;", el)
 				.toString();
 		return Math.round(Float.parseFloat(width));
@@ -206,7 +208,7 @@ class JSHelper {
 	 * @return {@code Integer} Rounded value of the width
 	 * @author Shubham Kumar
 	 */
-	public static int getWidthOf(By selector) {
+	public int getWidthOf(By selector) {
 		String width = scriptExecutor
 				.executeScript("return arguments[0].getBoundingClientRect().width;", driver.findElement(selector))
 				.toString();
@@ -219,7 +221,7 @@ class JSHelper {
 	 * @param url
 	 * @author Shubham Kumar
 	 */
-	public static void openNewTab(String url) {
+	public void openNewTab(String url) {
 		scriptExecutor.executeScript("window.open(`" + url + "`);");
 	}
 
@@ -229,7 +231,7 @@ class JSHelper {
 	 * @param el
 	 * @author Shubham Kumar
 	 */
-	public static void scrollToCenterOfView(WebElement el) {
+	public void scrollToCenterOfView(WebElement el) {
 		scriptExecutor.executeScript("arguments[0].scrollIntoView({block:'center', inline:'center'});", el);
 	}
 
@@ -239,7 +241,7 @@ class JSHelper {
 	 * @param selector
 	 * @author Shubham Kumar
 	 */
-	public static void scrollToCenterOfView(By selector) {
+	public void scrollToCenterOfView(By selector) {
 		scriptExecutor.executeScript("arguments[0].scrollIntoView({block:'center', inline:'center'});",
 				driver.findElement(selector));
 	}
@@ -251,8 +253,8 @@ class JSHelper {
 	 * @return {@code Boolean} value of the XPath absence
 	 * @author Shubham Kumar
 	 */
-	public static boolean getAbsenceOfXpath(By xpath) {
-		String xpathExpression = xpath.toString().substring(10);
+	public boolean getAbsenceOfXpath(By xpath) {
+		String xpathExpression = xpath.toString().substring(10).replace("\"", "\\\"");
 		return (boolean) scriptExecutor.executeScript("return document.evaluate(\"count(" + xpathExpression
 				+ ")\", document, null, XPathResult.ANY_TYPE, null).numberValue === 0;");
 	}
@@ -263,7 +265,7 @@ class JSHelper {
 	 * @return {@code String} ready state of the document
 	 * @author Shubham Kumar
 	 */
-	static String getReadyStateOfDocument() {
+	String getReadyStateOfDocument() {
 		return scriptExecutor.executeScript("return document.readyState;").toString().trim();
 	}
 
@@ -274,7 +276,7 @@ class JSHelper {
 	 * @return {@code String} value of text content
 	 * @author Shubham Kumar
 	 */
-	public static String getInnerTextOf(WebElement el) {
+	public String getInnerTextOf(WebElement el) {
 		return scriptExecutor.executeScript("return arguments[0].textContent;", el).toString();
 	}
 
@@ -285,7 +287,7 @@ class JSHelper {
 	 * @return {@code String} value of text content
 	 * @author Shubham Kumar
 	 */
-	public static String getInnerTextOf(By selector) {
+	public String getInnerTextOf(By selector) {
 		return scriptExecutor.executeScript("return arguments[0].textContent;", driver.findElement(selector))
 				.toString();
 	}
@@ -296,7 +298,7 @@ class JSHelper {
 	 * @return {@code String} Title of the page
 	 * @author Shubham Kumar
 	 */
-	public static String getTitleOfPage() {
+	public String getTitleOfPage() {
 		return scriptExecutor.executeScript("return document.title;").toString();
 	}
 

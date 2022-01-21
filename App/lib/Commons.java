@@ -19,20 +19,25 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import base.TestBase;
-import utils.DriverUtils;
+import types.TestObj;
 
 /**
  * Class for storing Common Functions for Test Execution
  * 
  * @author Shubham Kumar
- * @version 2.0
+ * @version 2.1
  *
  */
 public class Commons extends JSHelper {
-	private static WebDriver driver = DriverUtils.getDriver();
-
-	private Commons() {
-
+	private WebDriver driver;
+	private TestBase testBase;
+	private Log log;
+	
+	public Commons(TestBase t) {
+		super(t);
+		this.testBase = t;
+		this.driver = (WebDriver) t.testObj.get(TestObj.DRIVER);
+		this.log = (Log) t.testObj.get(TestObj.LOG);
 	}
 
 	/**
@@ -40,9 +45,9 @@ public class Commons extends JSHelper {
 	 * 
 	 * @author Shubham Kumar
 	 */
-	public static void captureScreenshot() {
-		String folderPath = TestBase.folderPath;
-		String testId = TestBase.getTestID();
+	public void captureScreenshot() {
+		String folderPath = testBase.folderPath;
+		String testId = testBase.getTestID();
 
 		TakesScreenshot ss = (TakesScreenshot) driver;
 		File srcFile = ss.getScreenshotAs(OutputType.FILE);
@@ -62,7 +67,7 @@ public class Commons extends JSHelper {
 	 * @return {@code Boolean} Presence of the element
 	 * @author Shubham Kumar
 	 */
-	public static boolean getPresenceOfElementWithXpath(By selector) {
+	public boolean getPresenceOfElementWithXpath(By selector) {
 		if (!getAbsenceOfXpath(selector)) {
 			return driver.findElement(selector).isDisplayed();
 		} else {
@@ -78,7 +83,7 @@ public class Commons extends JSHelper {
 	 * @return {@code Boolean} If Both Lists contains same data
 	 * @author Shubham Kumar
 	 */
-	public static boolean compareList(List<?> l1, List<?> l2) {
+	public boolean compareList(List<?> l1, List<?> l2) {
 		if (l1.size() != l2.size()) {
 			return false;
 		}
@@ -100,10 +105,10 @@ public class Commons extends JSHelper {
 	 * @param data
 	 * @author Shubham Kumar
 	 */
-	public static void writeToExcel(String columnName, String data, String ...otherProps) {
-		try (FileInputStream fis = new FileInputStream(TestBase.testDataFile)) {
+	public void writeToExcel(String columnName, String data, String ...otherProps) {
+		try (FileInputStream fis = new FileInputStream(testBase.testDataFile)) {
 			XSSFWorkbook wb = new XSSFWorkbook(fis);
-			XSSFSheet sh = wb.getSheet(TestBase.sheetName);
+			XSSFSheet sh = wb.getSheet(testBase.sheetName);
 
 			int row = sh.getPhysicalNumberOfRows();
 			int col = sh.getRow(0).getPhysicalNumberOfCells();
@@ -117,7 +122,7 @@ public class Commons extends JSHelper {
 				}
 			}
 
-			String testName = TestBase.testCaseName;
+			String testName = testBase.testCaseName;
 			for (int i = 1; i < row; i++) {
 				String currentTestName = sh.getRow(i).getCell(0).getStringCellValue().trim();
 
@@ -125,17 +130,17 @@ public class Commons extends JSHelper {
 					Cell cell = sh.getRow(i).getCell(colIndex);
 					if (colIndex != -1) {
 						cell.setCellValue(data);
-						Log.info("Added value: " + data + " To Column: " + columnName + " for TestCase " + testName);
+						log.info("Added value: " + data + " To Column: " + columnName + " for TestCase " + testName);
 						break;
 					}
 				}
 			}
 
-			FileOutputStream fos = new FileOutputStream(TestBase.testDataFile);
+			FileOutputStream fos = new FileOutputStream(testBase.testDataFile);
 			wb.write(fos);
 			wb.close();
 			fos.close();
-			if (otherProps.length == 0) TestBase.setTestData();
+			if (otherProps.length == 0) testBase.setTestData();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -148,7 +153,7 @@ public class Commons extends JSHelper {
 	 * @return {@code WebElement} Option
 	 * @author Shubham Kumar
 	 */
-	public static WebElement getFirstSelectedOptionFromDropdown(WebElement el) {
+	public WebElement getFirstSelectedOptionFromDropdown(WebElement el) {
 		return new Select(el).getFirstSelectedOption();
 	}
 
@@ -159,7 +164,7 @@ public class Commons extends JSHelper {
 	 * @return {@code WebElement} Option
 	 * @author Shubham Kumar
 	 */
-	public static WebElement getFirstSelectedOptionFromDropdown(By selector) {
+	public WebElement getFirstSelectedOptionFromDropdown(By selector) {
 		return new Select(driver.findElement(selector)).getFirstSelectedOption();
 	}
 
@@ -170,7 +175,7 @@ public class Commons extends JSHelper {
 	 * @return {@code String} representation for node
 	 * @author Shubham Kumar
 	 */
-	public static String translateNormalized(String text) {
+	public String translateNormalized(String text) {
 		return "translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '"
 				+ text.toLowerCase() + "'";
 	}
@@ -182,7 +187,7 @@ public class Commons extends JSHelper {
 	 * @return {@code String} xpath expression
 	 * @author Shubham Kumar
 	 */
-	public static String getXpathExpression(By xpath) {
+	public String getXpathExpression(By xpath) {
 		return xpath.toString().substring(10);
 	}
 }

@@ -12,18 +12,14 @@ import org.testng.ITestResult;
  *
  */
 public class Log {
-	private static Logger logger = LogManager.getLogger(Log.class);
-
-	private Log() {
-
-	}
+	private Logger logger = LogManager.getLogger(Log.class);
 
 	/**
 	 * Logs a separator to console
 	 * 
 	 * @author Shubham Kumar
 	 */
-	private static void logSeperator() {
+	private void logSeperator() {
 		logger.info("****************************************************************************");
 		logger.info("****************************************************************************");
 	}
@@ -34,7 +30,7 @@ public class Log {
 	 * @param testCaseName Current TestCase Name
 	 * @author Shubham Kumar
 	 */
-	public static void startTestCase(String testCaseName) {
+	public void startTestCase(String testCaseName) {
 		logger.info("TestCase Execution Starting...");
 		logger.info("TestCase Name: " + testCaseName);
 		logSeperator();
@@ -46,7 +42,7 @@ public class Log {
 	 * @param testCaseName Current TestCase Name
 	 * @author Shubham Kumar
 	 */
-	public static void endTestCase(String testCaseName) {
+	public void endTestCase(String testCaseName) {
 		logger.info("TestCase Execution Ended: " + testCaseName);
 		logSeperator();
 	}
@@ -57,7 +53,7 @@ public class Log {
 	 * @param message
 	 * @author Shubham Kumar
 	 */
-	public static void info(String message) {
+	public void info(String message) {
 		logger.info(message);
 	}
 
@@ -67,7 +63,7 @@ public class Log {
 	 * @param message
 	 * @author Shubham Kumar
 	 */
-	public static void warn(String message) {
+	public void warn(String message) {
 		logger.warn(message);
 	}
 
@@ -77,7 +73,7 @@ public class Log {
 	 * @param message
 	 * @author Shubham Kumar
 	 */
-	public static void error(String message) {
+	public void error(String message) {
 		logger.error(message);
 	}
 
@@ -87,7 +83,7 @@ public class Log {
 	 * @param message
 	 * @author Shubham Kumar
 	 */
-	public static void fatal(String message) {
+	public void fatal(String message) {
 		logger.fatal(message);
 	}
 
@@ -97,7 +93,7 @@ public class Log {
 	 * @param message
 	 * @author Shubham Kumar
 	 */
-	public static void debug(String message) {
+	public void debug(String message) {
 		logger.info(message);
 	}
 
@@ -108,7 +104,7 @@ public class Log {
 	 * @param testCaseName TestCaseName of completed TestCase
 	 * @author Shubham Kumar
 	 */
-	public static void resultInfo(ITestResult result, String testCaseName) {
+	public void resultInfo(ITestResult result, String testCaseName) {
 		switch (result.getStatus()) {
 		case ITestResult.SUCCESS:
 			logger.info("TestCase Passed: " + testCaseName);

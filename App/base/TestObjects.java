@@ -15,13 +15,9 @@ import utils.PropertiesReader;
  *
  */
 class TestObjects {
-	static String testID;
-	private static Properties runProperties;
-	static Map<String, Map<String, String>> testData = new LinkedHashMap<>();
-
-	private TestObjects() {
-
-	}
+	String testID;
+	private Properties runProperties;
+	Map<String, Map<String, String>> testData = new LinkedHashMap<>();
 
 	/**
 	 * Sets TestID
@@ -29,7 +25,7 @@ class TestObjects {
 	 * @param testId
 	 * @author Shubham Kumar
 	 */
-	public static void setTestID(String testId) {
+	public void setTestID(String testId) {
 		testID = testId;
 	}
 
@@ -39,7 +35,7 @@ class TestObjects {
 	 * @return {@code String}
 	 * @author Shubham Kumar
 	 */
-	public static String getTestID() {
+	public String getTestID() {
 		return testID;
 	}
 
@@ -49,7 +45,7 @@ class TestObjects {
 	 * @param data
 	 * @author Shubham Kumar
 	 */
-	public static void setTestData(Map<String, Map<String, String>> data) {
+	public void setTestData(Map<String, Map<String, String>> data) {
 		testData = data;
 	}
 
@@ -59,7 +55,7 @@ class TestObjects {
 	 * @throws IOException
 	 * @author Shubham Kumar
 	 */
-	public static void setRunProperties() throws IOException {
+	public void setRunProperties() throws IOException {
 		runProperties = PropertiesReader.readProperties("run.properties");
 	}
 
@@ -69,7 +65,7 @@ class TestObjects {
 	 * @return {@code Properties}
 	 * @author Shubham Kumar
 	 */
-	public static Properties getRunProperties() {
+	public Properties getRunProperties() {
 		return runProperties;
 	}
 
@@ -80,7 +76,7 @@ class TestObjects {
 	 * @return {@code String}
 	 * @author Shubham Kumar
 	 */
-	public static String getColValue(String colName) {
+	public String getColValue(String colName) {
 		return testData.get(testID).get(colName);
 	}
 
